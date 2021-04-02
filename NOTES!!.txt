@@ -1,0 +1,28 @@
+Age:
+0 - M
+1 - F
+
+Diagnosis:
+0 - Healthy
+1 - Asthma
+2 - Bronchiectasis
+3 - COPD
+4 - LRTI
+5 - Pneumonia
+6 - URTI
+
+Relevant data to adult:
+1. Patient number
+2. Age
+3. Sex
+4. Adult BMI (kg/m2)
+
+Relevant data to child:
+1. Patient number
+2. Age
+3. Sex
+4. Child Weight (kg)
+5. Child Height (cm)
+
+* Some patients are missing data (N/A) - they will discard from the analysis.
+
