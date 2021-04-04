@@ -54,7 +54,7 @@ y = df['Diagnosis']  # Labels
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)  # 20% test and 80% training
 
 # Create a Gaussian Classifier
-clf = RandomForestClassifier(n_estimators=1000)  # 1,000 trees
+clf = RandomForestClassifier(n_estimators=1_000, criterion='gini')  # 1,000 trees
 
 # Train the model using the training sets y_pred=clf.predict(X_test)
 clf.fit(X_train, y_train)
