@@ -1,3 +1,8 @@
+'''
+The code contains noted parts that are intended for analysis by child.
+In order to analyze by child, eliminate the comments and define the parts of the adults as comments.
+'''
+
 import csv
 import pandas as pd
 from sklearn.model_selection import train_test_split  # train_test_split function
@@ -16,7 +21,7 @@ def predict_by_personal_data_child(clf, age, sex, weight, height):  # Prediction
     return "The predict diagnosis is:" + clf.predict([[age, sex, weight, height]])[0]
 
 
-# Import the data from csv file to python
+# Import the data from csv file into python
 imported_data = open('data to analyse.csv', encoding='utf-8')
 csv_data = csv.reader(imported_data)
 data = list(csv_data)
