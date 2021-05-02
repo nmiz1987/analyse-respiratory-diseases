@@ -45,11 +45,8 @@ X = df[['Age', 'Sex', 'Adult BMI (kg/m2)']]  # Features for an adult
 y = df['Diagnosis']  # Labels
 
 # Split dataset into training set and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=109) # 70% training and 30% test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=1) # 70% training and 30% test
 # random_state=109????????????????????????????
-"""
- ******************************************************************
-"""
 
 
 #Create a svm Classifier
