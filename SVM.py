@@ -4,21 +4,15 @@ In order to analyze by child, eliminate the comments and define the parts of the
 '''
 
 import csv
+
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split  # train_test_split function
-from sklearn.ensemble import RandomForestClassifier  # Random Forest Model
+from sklearn import svm  # SVM Model
 from sklearn import metrics  # module for accuracy calculation
 import matplotlib.pyplot as plt  # Visualizing the important features
 import seaborn as sns  # Bar plot for the important features Visualization
 from sklearn.metrics import classification_report
-
-
-def predict_by_personal_data_adult(clf, age, sex, BMI):  # Prediction according to personal data
-    return "The predict diagnosis is:" + clf.predict([[age, sex, BMI]])[0]
-
-
-def predict_by_personal_data_child(clf, age, sex, weight, height):  # Prediction according to personal data
-    return "The predict diagnosis is:" + clf.predict([[age, sex, weight, height]])[0]
 
 
 # Import the data from csv file into python
@@ -42,8 +36,8 @@ df = pd.DataFrame(data_for_analysis, columns=['Patient number', 'Age', 'Sex', 'A
                                               'Child Height (cm)', 'Diagnosis'])
 """
  ****************** By now all the data is set and ready to import to the algorithm ******************
- The Random Forest algorithm code in this project is based on the guidance of the tutorial in
- https://www.datacamp.com/community/tutorials/random-forests-classifier-python
+ SVM algorithm code in this project is based on the guidance of the tutorial in
+ https://www.datacamp.com/community/tutorials/svm-classification-scikit-learn-python
 """
 
 X = df[['Age', 'Sex', 'Adult BMI (kg/m2)']]  # Features for an adult
@@ -51,35 +45,31 @@ X = df[['Age', 'Sex', 'Adult BMI (kg/m2)']]  # Features for an adult
 y = df['Diagnosis']  # Labels
 
 # Split dataset into training set and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)  # 20% test and 80% training
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=109) # 70% training and 30% test
+# random_state=109????????????????????????????
+"""
+ ******************************************************************
+"""
 
-# Create a Gaussian Classifier
-clf = RandomForestClassifier(n_estimators=1_000, criterion='gini')  # 1,000 trees
 
-# Train the model using the training sets y_pred=clf.predict(X_test)
+#Create a svm Classifier
+# kernel options: {'linear', 'poly', 'rbf', 'sigmoid', 'precomputed'}
+clf = svm.SVC(kernel='linear') # Linear Kernel
+
+#Train the model using the training sets
 clf.fit(X_train, y_train)
 
+#Predict the response for test dataset
 y_pred = clf.predict(X_test)
 
-# Model Accuracy, how often is the classifier correct?
-print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+print("Accuracy: {:.2f}%".format(clf.score(X_test, y_test) * 100 ))
 
-# Finding Important Features in Scikit-learn
-feature_imp = pd.Series(clf.feature_importances_, index=['Age', 'Sex', 'Adult BMI (kg/m2)']).sort_values(
-    ascending=False)  # For an adult
-# feature_imp = pd.Series(clf.feature_importances_,index=['Age', 'Sex', 'Child Weight (kg)',
-# 'Child Height (cm)']).sort_values(ascending=False)  # For a child
 
-print("Those are the important features that affect mostly on the result:")
-print(feature_imp)
-# Creating a bar plot
-sns.barplot(x=feature_imp, y=feature_imp.index)
-# Add labels to your graph
-plt.xlabel('Feature Importance Score')
-plt.ylabel('Features')
-plt.title("Visualizing Important Features")
-plt.legend()
-plt.show()
+# Model Precision: what percentage of positive tuples are labeled as such?
+print("Precision: {:.2f}%".format(metrics.precision_score(y_test, y_pred, average="micro") * 100 ))
+
+# Model Recall: what percentage of positive tuples are labelled as such?
+print("Recall: {:.2f}%".format(metrics.recall_score(y_test, y_pred, average="micro") * 100 ))
 
 rfc_predict = clf.predict(X_test)
 report = classification_report(y_test, rfc_predict, zero_division='warn')
