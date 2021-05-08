@@ -4,8 +4,6 @@ In order to analyze by child, eliminate the comments and define the parts of the
 '''
 
 import csv
-
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split  # train_test_split function
 from sklearn import svm  # SVM Model
@@ -45,9 +43,7 @@ X = df[['Age', 'Sex', 'Adult BMI (kg/m2)']]  # Features for an adult
 y = df['Diagnosis']  # Labels
 
 # Split dataset into training set and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=1) # 70% training and 30% test
-# random_state=109????????????????????????????
-
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=1) # 80% training and 20% test
 
 #Create a svm Classifier
 # kernel options: {'linear', 'poly', 'rbf', 'sigmoid', 'precomputed'}
@@ -60,11 +56,8 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
 print("Accuracy: {:.2f}%".format(clf.score(X_test, y_test) * 100 ))
-
-
 # Model Precision: what percentage of positive tuples are labeled as such?
 print("Precision: {:.2f}%".format(metrics.precision_score(y_test, y_pred, average="micro") * 100 ))
-
 # Model Recall: what percentage of positive tuples are labelled as such?
 print("Recall: {:.2f}%".format(metrics.recall_score(y_test, y_pred, average="micro") * 100 ))
 
